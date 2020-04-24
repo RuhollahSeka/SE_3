@@ -1,8 +1,8 @@
 package selab.mvc.models.entities;
 
 import selab.mvc.models.Model;
-import sun.misc.Regexp;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Course implements Model {
@@ -11,6 +11,7 @@ public class Course implements Model {
     private String startTime = null;
     private String endTime = null;
     private Weekday weekday;
+    private ArrayList<Participation> participations = new ArrayList<>();
 
 
     @Override
@@ -61,13 +62,42 @@ public class Course implements Model {
     }
 
     public float getAverage() {
-        // TODO: Calculate and return the average of the points
-        return 0;
+        float count = 0;
+        float sum = 0;
+
+        for (Participation participation: participations)
+        {
+            sum += participation.getPoints();
+            count += 1;
+        }
+
+        if (count == 0)
+            return 0;
+        return sum / count;
     }
 
     public String getStudents() {
-        // TODO: Return a comma separated list of student names
-        return "-";
+        StringBuilder students = new StringBuilder();
+        for (Participation participation: participations)
+        {
+            Student student = participation.getStudent();
+            students.append(student.getName()).append(",");
+        }
+        String result = students.toString();
+        if (result.equals(""))
+            return "";
+        result = result.substring(0, result.length() - 1);
+        return result;
+    }
+
+    public void addParticipation(Participation participation)
+    {
+        this.participations.add(participation);
+    }
+
+    public void removeParticipation(Participation participation)
+    {
+        this.participations.remove(participation);
     }
 
     /**
