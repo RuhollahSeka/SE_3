@@ -1,6 +1,7 @@
 package selab.mvc.models;
 
 import selab.mvc.models.entities.Course;
+import selab.mvc.models.entities.Participation;
 import selab.mvc.models.entities.Student;
 import selab.mvc.models.entities.Weekday;
 
@@ -11,9 +12,11 @@ public class DataContext {
 
     private DataSet<Student> students = new DataSet<>();
     private DataSet<Course> courses = new DataSet<>();
+    private DataSet<Participation> participations = new DataSet<>();
 
     public DataSet<Student> getStudents() { return this.students; }
     public DataSet<Course> getCourses() { return this.courses; }
+    public DataSet<Participation> getParticipations() { return this.participations; }
 
     /**
      * Adding some initial data to the context
