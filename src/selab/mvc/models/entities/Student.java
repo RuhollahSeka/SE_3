@@ -2,11 +2,13 @@ package selab.mvc.models.entities;
 
 import selab.mvc.models.Model;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Student implements Model {
     private String name;
     private String studentNo;
+    private ArrayList<Participation> participations = new ArrayList<>();
 
     @Override
     public String getPrimaryKey() {
@@ -25,13 +27,43 @@ public class Student implements Model {
     public String getStudentNo() { return this.studentNo; }
 
     public float getAverage() {
-        // TODO: Calculate and return the average of the points
-        return 0;
+        float count = 0;
+        float sum = 0;
+
+        for (Participation participation: participations)
+        {
+            count += 1;
+            sum += participation.getPoints();
+        }
+
+        if (count == 0)
+            return count;
+        return sum / count;
     }
 
     public String getCourses() {
-        // TODO: Return a comma separated list of course names
-        return "-";
+        StringBuilder courses = new StringBuilder();
+        for (Participation participation: participations)
+        {
+            Course course = participation.getCourse();
+            courses.append(course.getTitle()).append(",");
+        }
+        if (courses.toString().equals(""))
+            return "";
+
+        String result = courses.toString();
+        result = result.substring(0, result.length() - 1);
+        return result;
+    }
+
+    public void addParticipation(Participation participation)
+    {
+        this.participations.add(participation);
+    }
+
+    public void removeParticipation(Participation participation)
+    {
+        this.participations.remove(participation);
     }
 
     /**
